@@ -4,49 +4,53 @@ on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag name'
+        required: true
 
 jobs:
   build:
-    name: Build ${{ matrix.os }}
+    name: ${{ matrix.asset_name }}
     strategy:
       matrix:
         include:
           - os: ubuntu-latest
-            gulp_target: vscode-linux-x64-min-ci
+            gulp_target: vscode-linux-x64
             asset_name: evi-linux-x64
-            arch: x64
+            ext: tar.gz
 
           - os: ubuntu-latest
-            gulp_target: vscode-linux-arm64-min-ci
+            gulp_target: vscode-linux-arm64
             asset_name: evi-linux-arm64
-            arch: arm64
+            ext: tar.gz
 
           - os: macos-latest
-            gulp_target: vscode-darwin-arm64-min-ci
+            gulp_target: vscode-darwin-arm64
             asset_name: evi-darwin-arm64
-            arch: arm64
+            ext: tar.gz
 
           - os: macos-13
-            gulp_target: vscode-darwin-x64-min-ci
+            gulp_target: vscode-darwin-x64
             asset_name: evi-darwin-x64
-            arch: x64
+            ext: tar.gz
 
           - os: windows-latest
-            gulp_target: 'vscode-win32-x64-min-ci'
+            gulp_target: vscode-win32-x64
             asset_name: evi-win32-x64
-            arch: x64
+            ext: zip
 
           - os: windows-latest
-            gulp_target: 'vscode-win32-arm64-min-ci'
+            gulp_target: vscode-win32-arm64
             asset_name: evi-win32-arm64
-            arch: arm64
+            ext: zip
 
     runs-on: ${{ matrix.os }}
     timeout-minutes: 120
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -65,43 +69,37 @@ jobs:
       - name: Build
         run: npm run gulp ${{ matrix.gulp_target }}
 
-      - name: Package artifact
+      - name: Package
         shell: bash
         run: |
-          if [ "${{ runner.os }}" = "Windows" ]; then
-            cd ..
-            powershell Compress-Archive -Path VSCode-${{ matrix.arch }} -DestinationPath ${{ github.workspace }}/${{ matrix.asset_name }}.zip
+          arch="${{ matrix.gulp_target }}" 
+          platform_arch="${arch#vscode-}"
+          build_dir="../VSCode-${platform_arch}"
+          echo "Packaging from $build_dir"
+          if [ "${{ matrix.ext }}" = "zip" ]; then
+            (cd .. && zip -r "${{ github.workspace }}/${{ matrix.asset_name }}.zip" "VSCode-${platform_arch}")
           else
-            cd ..
-            tar czf ${{ github.workspace }}/${{ matrix.asset_name }}.tar.gz VSCode-${{ matrix.arch }}
+            tar czf "${{ github.workspace }}/${{ matrix.asset_name }}.tar.gz" -C .. "VSCode-${platform_arch}"
           fi
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.asset_name }}
-          path: ${{ matrix.asset_name }}.*
+          path: ${{ matrix.asset_name }}.${{ matrix.ext }}
 
   release:
-    name: Create Release
     needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: write
 
     steps:
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v4
         with:
           path: artifacts
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          name: Evi IDE ${{ github.ref_name }}
-          body_path: RELEASE_NOTES.md
-          fail_on_unmatched_files: true
-          files: |
-            artifacts/**/*.tar.gz
-            artifacts/**/*.zip
+          files: artifacts/**/*
           generate_release_notes: true
