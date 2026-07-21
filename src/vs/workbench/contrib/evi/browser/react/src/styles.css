@@ -1,0 +1,247 @@
+/*--------------------------------------------------------------------------------------
+ *  Copyright 2025 Glass Devtools, Inc. All rights reserved.
+ *  Licensed under the Apache License, Version 2.0. See LICENSE.txt for more information.
+ *--------------------------------------------------------------------------------------*/
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+& {
+	--evi-bg-1: var(--vscode-input-background);
+	--evi-bg-1-alt: var(--vscode-badge-background);
+	--evi-bg-2: var(--vscode-sideBar-background);
+	--evi-bg-2-alt: color-mix(in srgb, var(--vscode-editor-background) 30%, var(--vscode-sideBar-background) 70%);
+	--evi-bg-2-hover: color-mix(in srgb, var(--vscode-editor-foreground) 2%, var(--vscode-sideBar-background) 98%);
+	--evi-bg-3: var(--vscode-editor-background);
+
+	--evi-fg-0: color-mix(in srgb, var(--vscode-tab-activeForeground) 90%, black 10%);
+	--evi-fg-1: var(--vscode-editor-foreground);
+	--evi-fg-2: var(--vscode-input-foreground);
+	--evi-fg-3: var(--vscode-input-placeholderForeground);
+	--evi-fg-4: var(--vscode-list-deemphasizedForeground);
+
+	--evi-warning: var(--vscode-charts-yellow);
+
+	--evi-border-1: var(--vscode-commandCenter-activeBorder);
+	--evi-border-2: var(--vscode-commandCenter-border);
+	--evi-border-3: var(--vscode-commandCenter-inactiveBorder);
+	--evi-border-4: var(--vscode-editorGroup-border);
+
+	--evi-ring-color: #C4713B;
+	--evi-link-color: #C4713B;
+
+	--evi-user-bubble: color-mix(in srgb, var(--vscode-button-background) 15%, var(--vscode-sideBar-background) 85%);
+	--evi-user-bubble-border: color-mix(in srgb, var(--vscode-button-background) 25%, transparent 75%);
+
+	--evi-font-sans: 'SF Pro Text', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, 'Helvetica Neue', Arial, sans-serif;
+	--evi-font-mono: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Cascadia Code', ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Monaco, 'Consolas', monospace;
+}
+
+.evi-font-sans {
+	font-family: var(--evi-font-sans);
+}
+
+.evi-font-mono {
+	font-family: var(--evi-font-mono);
+}
+
+/* Apply font globally within void scope */
+.evi-scope, .evi-scope * {
+	font-family: var(--evi-font-sans);
+}
+
+.evi-scope code, .evi-scope pre, .evi-scope .monaco-editor {
+	font-family: var(--evi-font-mono) !important;
+}
+
+.select-child-restyle select {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	padding-right: 24px;
+}
+
+.evi-force-child-placeholder-evi-fg-1 ::placeholder {
+	color: var(--evi-fg-3);
+}
+
+* {
+	outline: none !important;
+}
+
+.inherit-bg-all-restyle > * {
+	background-color: inherit !important;
+}
+
+.bg-editor-style-override {
+	--vscode-sideBar-background: var(--vscode-editor-background);
+}
+
+/* ===== Custom Scrollbar ===== */
+.evi-scrollbar::-webkit-scrollbar {
+	width: 6px;
+	height: 6px;
+}
+
+.evi-scrollbar::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.evi-scrollbar::-webkit-scrollbar-thumb {
+	background: var(--evi-border-3);
+	border-radius: 3px;
+}
+
+.evi-scrollbar::-webkit-scrollbar-thumb:hover {
+	background: var(--evi-border-2);
+}
+
+/* ===== Message Entrance Animations ===== */
+@keyframes evi-message-in {
+	0% {
+		opacity: 0;
+		transform: translateY(8px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.evi-message-in {
+	animation: evi-message-in 0.25s ease-out both;
+}
+
+@keyframes evi-fade-in {
+	0% { opacity: 0; }
+	100% { opacity: 1; }
+}
+
+.evi-fade-in {
+	animation: evi-fade-in 0.2s ease-out both;
+}
+
+/* ===== Reasoning Pulse ===== */
+@keyframes evi-pulse {
+	0%, 100% { opacity: 0.6; }
+	50% { opacity: 0.3; }
+}
+
+.evi-reasoning-pulse {
+	animation: evi-pulse 2s ease-in-out infinite;
+}
+
+/* ===== Skeleton Loading ===== */
+@keyframes evi-shimmer {
+	0% { background-position: -200% 0; }
+	100% { background-position: 200% 0; }
+}
+
+.evi-shimmer {
+	background: linear-gradient(
+		90deg,
+		var(--evi-bg-2) 25%,
+		var(--evi-bg-2-alt) 50%,
+		var(--evi-bg-2) 75%
+	);
+	background-size: 200% 100%;
+	animation: evi-shimmer 1.5s ease-in-out infinite;
+}
+
+/* ===== Smooth Transitions ===== */
+.evi-transition {
+	transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== Focus Ring ===== */
+.evi-focus-ring:focus-visible {
+	box-shadow: 0 0 0 2px var(--evi-ring-color);
+}
+
+/* ===== Bubble Styles ===== */
+.evi-user-bubble {
+	background: var(--evi-user-bubble);
+	border: 1px solid var(--evi-user-bubble-border);
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.evi-assistant-bubble {
+	background: var(--evi-bg-3);
+	border: 1px solid var(--evi-border-3);
+	box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.evi-assistant-bubble:hover {
+	border-color: var(--evi-border-2);
+}
+
+/* ===== Smooth transitions for hover elements ===== */
+.evi-hover-fade {
+	transition: opacity 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.evi-hover-fade:hover {
+	opacity: 1 !important;
+}
+
+/* ===== Tool Card ===== */
+.evi-tool-card {
+	background: var(--evi-bg-2);
+	border: 1px solid var(--evi-border-3);
+}
+
+.evi-tool-card:hover {
+	border-color: var(--evi-border-2);
+}
+
+/* ===== Gradient accent line ===== */
+.evi-accent-line {
+	background: linear-gradient(180deg, var(--evi-ring-color), transparent);
+}
+
+/* ===== Subtle text selection ===== */
+::selection {
+	background: color-mix(in srgb, var(--evi-ring-color) 30%, transparent 70%);
+}
+
+
+
+/* html {
+	font-size: var(--vscode-font-size);
+}
+
+.btn {
+	@apply cursor-pointer transition-colors;
+
+	&.btn-primary {
+		@apply bg-vscode-button-bg text-vscode-button-fg;
+
+		&:not(:disabled) {
+			@apply hover:bg-vscode-button-hoverBg;
+		}
+	}
+
+	&.btn-sm {
+		@apply px-3 py-1 text-sm;
+	}
+
+	&.btn-secondary {
+		@apply bg-vscode-button-secondary-bg text-vscode-button-secondary-fg;
+
+		&:not(:disabled) {
+			@apply hover:bg-vscode-button-secondary-hoverBg;
+		}
+	}
+
+	&:disabled {
+		@apply opacity-75 cursor-not-allowed;
+	}
+}
+
+.input {
+	@apply bg-vscode-input-bg text-vscode-input-fg border-vscode-input-border focus:outline-vscode-focus-border;
+}
+
+.dropdown {
+	@apply bg-vscode-dropdown-bg text-vscode-dropdown-foreground border-vscode-dropdown-border focus:outline-vscode-focus-border;
+} */

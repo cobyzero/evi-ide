@@ -22,9 +22,14 @@ product.overrides.json
 *.snap.actual
 .vscode-test
 
-# Void added these:
+# Evi added these:
 .tmp/
 .tmp2/
 .tool-versions
-src/vs/workbench/contrib/void/browser/react/out/**
-src/vs/workbench/contrib/void/browser/react/src2/**
+src/vs/workbench/contrib/evi/browser/react/out/**
+src/vs/workbench/contrib/evi/browser/react/src2/**
+
+# opencode bundled
+ext/opencode-bundled/
+node_modules/@opencode-ai/
+
