@@ -24,8 +24,8 @@ import { IWindowOpenable } from '../../../../platform/window/common/window.js';
 import { splitRecentLabel } from '../../../../base/common/labels.js';
 import { IViewsService } from '../../../services/views/common/viewsService.js';
 
-/* eslint-disable */ // Void
-import { VOID_CTRL_K_ACTION_ID, VOID_CTRL_L_ACTION_ID } from '../../../contrib/void/browser/actionIDs.js';
+/* eslint-disable */ // Evi
+import { EVI_CTRL_K_ACTION_ID, EVI_CTRL_L_ACTION_ID } from '../../../contrib/evi/browser/actionIDs.js';
 import { VIEWLET_ID as REMOTE_EXPLORER_VIEWLET_ID } from '../../../contrib/remote/browser/remoteExplorer.js';
 /* eslint-enable */
 
@@ -181,7 +181,7 @@ export class EditorGroupWatermark extends Disposable {
 			this.currentDisposables.clear();
 
 
-			// Void - if the workbench is empty, show open
+			// Evi - if the workbench is empty, show open
 			if (this.contextService.getWorkbenchState() === WorkbenchState.EMPTY) {
 
 				// Create a flex container for buttons with vertical direction
@@ -195,7 +195,7 @@ export class EditorGroupWatermark extends Disposable {
 
 				// Open a folder
 				const openFolderButton = h('button')
-				openFolderButton.root.classList.add('void-openfolder-button')
+				openFolderButton.root.classList.add('evi-openfolder-button')
 				openFolderButton.root.style.display = 'block'
 				openFolderButton.root.style.width = '124px' // Set width to 124px as requested
 				openFolderButton.root.textContent = 'Open Folder'
@@ -211,7 +211,7 @@ export class EditorGroupWatermark extends Disposable {
 
 				// Open SSH button
 				const openSSHButton = h('button')
-				openSSHButton.root.classList.add('void-openssh-button')
+				openSSHButton.root.classList.add('evi-openssh-button')
 				openSSHButton.root.style.display = 'block'
 				openSSHButton.root.style.backgroundColor = '#5a5a5a' // Made darker than the default gray
 				openSSHButton.root.style.width = '124px' // Set width to 124px as requested
@@ -244,7 +244,7 @@ export class EditorGroupWatermark extends Disposable {
 							const { name, parentPath } = splitRecentLabel(fullPath);
 
 							const linkSpan = $('span');
-							linkSpan.classList.add('void-link')
+							linkSpan.classList.add('evi-link')
 							linkSpan.style.display = 'flex'
 							linkSpan.style.gap = '4px'
 							linkSpan.style.padding = '8px'
@@ -284,7 +284,7 @@ export class EditorGroupWatermark extends Disposable {
 			else {
 
 				// show them Void keybindings
-				const keys = this.keybindingService.lookupKeybinding(VOID_CTRL_L_ACTION_ID);
+				const keys = this.keybindingService.lookupKeybinding(EVI_CTRL_L_ACTION_ID);
 				const dl = append(voidIconBox, $('dl'));
 				const dt = append(dl, $('dt'));
 				dt.textContent = 'Chat'
@@ -295,7 +295,7 @@ export class EditorGroupWatermark extends Disposable {
 				this.currentDisposables.add(label);
 
 
-				const keys2 = this.keybindingService.lookupKeybinding(VOID_CTRL_K_ACTION_ID);
+				const keys2 = this.keybindingService.lookupKeybinding(EVI_CTRL_K_ACTION_ID);
 				const dl2 = append(voidIconBox, $('dl'));
 				const dt2 = append(dl2, $('dt'));
 				dt2.textContent = 'Quick Edit'
@@ -311,13 +311,13 @@ export class EditorGroupWatermark extends Disposable {
 				// button3.style.display = 'block'
 				// button3.style.marginLeft = 'auto'
 				// button3.style.marginRight = 'auto'
-				// button3.classList.add('void-settings-watermark-button')
+				// button3.classList.add('evi-settings-watermark-button')
 
 				// const label3 = new KeybindingLabel(button3, OS, { renderUnboundKeybindings: true, ...defaultKeybindingLabelStyles });
 				// if (keys3)
 				// 	label3.set(keys3);
 				// button3.onclick = () => {
-				// 	this.commandService.executeCommand(VOID_OPEN_SETTINGS_ACTION_ID)
+				// 	this.commandService.executeCommand(EVI_OPEN_SETTINGS_ACTION_ID)
 				// }
 				// this.currentDisposables.add(label3);
 

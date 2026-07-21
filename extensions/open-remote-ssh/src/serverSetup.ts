@@ -12,7 +12,7 @@ export interface ServerInstallOptions {
 	quality: string;
 	commit: string;
 	version: string;
-	release?: string; // void specific
+	release?: string; // evi specific
 	extensionIds: string[];
 	envVariables: string[];
 	useSocketPath: boolean;
@@ -39,7 +39,7 @@ export class ServerInstallError extends Error {
 	}
 }
 
-const DEFAULT_DOWNLOAD_URL_TEMPLATE = 'https://github.com/voideditor/binaries/releases/download/${version}/void-reh-${os}-${arch}-${version}.tar.gz';
+const DEFAULT_DOWNLOAD_URL_TEMPLATE = 'https://github.com/cobyzero/evi-ide/releases/download/${version}/evi-reh-${os}-${arch}-${version}.tar.gz';
 
 export async function installCodeServer(conn: SSHConnection, serverDownloadUrlTemplate: string | undefined, extensionIds: string[], envVariables: string[], platform: string | undefined, useSocketPath: boolean, logger: Log): Promise<ServerInstallResult> {
 	let shell = 'powershell';
@@ -212,7 +212,7 @@ TMP_DIR="\${XDG_RUNTIME_DIR:-"/tmp"}"
 DISTRO_VERSION="${version}"
 DISTRO_COMMIT="${commit}"
 DISTRO_QUALITY="${quality}"
-DISTRO_VOID_RELEASE="${release ?? ''}"
+DISTRO_EVI_RELEASE="${release ?? ''}"
 
 SERVER_APP_NAME="${serverApplicationName}"
 SERVER_INITIAL_EXTENSIONS="${extensions}"
@@ -317,12 +317,12 @@ if [[ ! -d $SERVER_DIR ]]; then
     fi
 fi
 
-# adjust platform for void download, if needed
+# adjust platform for evi download, if needed
 if [[ $OS_RELEASE_ID = alpine ]]; then
     PLATFORM=$OS_RELEASE_ID
 fi
 
-SERVER_DOWNLOAD_URL="$(echo "${serverDownloadUrlTemplate.replace(/\$\{/g, '\\${')}" | sed "s/\\\${quality}/$DISTRO_QUALITY/g" | sed "s/\\\${version}/$DISTRO_VERSION/g" | sed "s/\\\${commit}/$DISTRO_COMMIT/g" | sed "s/\\\${os}/$PLATFORM/g" | sed "s/\\\${arch}/$SERVER_ARCH/g" | sed "s/\\\${release}/$DISTRO_VOID_RELEASE/g")"
+SERVER_DOWNLOAD_URL="$(echo "${serverDownloadUrlTemplate.replace(/\$\{/g, '\\${')}" | sed "s/\\\${quality}/$DISTRO_QUALITY/g" | sed "s/\\\${version}/$DISTRO_VERSION/g" | sed "s/\\\${commit}/$DISTRO_COMMIT/g" | sed "s/\\\${os}/$PLATFORM/g" | sed "s/\\\${arch}/$SERVER_ARCH/g" | sed "s/\\\${release}/$DISTRO_EVI_RELEASE/g")"
 
 # Check if server script is already installed
 if [[ ! -f $SERVER_SCRIPT ]]; then
@@ -445,7 +445,7 @@ $ProgressPreference = "SilentlyContinue"
 $DISTRO_VERSION="${version}"
 $DISTRO_COMMIT="${commit}"
 $DISTRO_QUALITY="${quality}"
-$DISTRO_VOID_RELEASE="${release ?? ''}"
+$DISTRO_EVI_RELEASE="${release ?? ''}"
 
 $SERVER_APP_NAME="${serverApplicationName}"
 $SERVER_INITIAL_EXTENSIONS="${extensions}"
