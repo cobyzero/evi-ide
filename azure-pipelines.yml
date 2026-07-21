@@ -1,0 +1,131 @@
+trigger:
+  tags:
+    include:
+      - v*
+
+pr: none
+
+stages:
+  - stage: Build
+    jobs:
+      - job: Linux_x64
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - checkout: self
+            fetchDepth: 0
+          - task: NodeTool@0
+            inputs:
+              versionSpec: 20.18.2
+          - script: npm ci
+          - script: npm run compile
+          - script: npm run gulp vscode-linux-x64
+          - script: tar czf $(Build.ArtifactStagingDirectory)/evi-linux-x64.tar.gz -C .. VSCode-linux-x64
+          - publish: $(Build.ArtifactStagingDirectory)
+            artifact: evi-linux-x64
+
+      - job: Linux_ARM64
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - checkout: self
+            fetchDepth: 0
+          - task: NodeTool@0
+            inputs:
+              versionSpec: 20.18.2
+          - script: npm ci
+          - script: npm run compile
+          - script: npm run gulp vscode-linux-arm64
+          - script: tar czf $(Build.ArtifactStagingDirectory)/evi-linux-arm64.tar.gz -C .. VSCode-linux-arm64
+          - publish: $(Build.ArtifactStagingDirectory)
+            artifact: evi-linux-arm64
+
+      - job: macOS_ARM64
+        pool:
+          vmImage: macos-latest
+        steps:
+          - checkout: self
+            fetchDepth: 0
+          - task: NodeTool@0
+            inputs:
+              versionSpec: 20.18.2
+          - script: npm ci
+          - script: npm run compile
+          - script: npm run gulp vscode-darwin-arm64
+          - script: tar czf $(Build.ArtifactStagingDirectory)/evi-darwin-arm64.tar.gz -C .. VSCode-darwin-arm64
+          - publish: $(Build.ArtifactStagingDirectory)
+            artifact: evi-darwin-arm64
+
+      - job: macOS_x64
+        pool:
+          vmImage: macos-13
+        steps:
+          - checkout: self
+            fetchDepth: 0
+          - task: NodeTool@0
+            inputs:
+              versionSpec: 20.18.2
+          - script: npm ci
+          - script: npm run compile
+          - script: npm run gulp vscode-darwin-x64
+          - script: tar czf $(Build.ArtifactStagingDirectory)/evi-darwin-x64.tar.gz -C .. VSCode-darwin-x64
+          - publish: $(Build.ArtifactStagingDirectory)
+            artifact: evi-darwin-x64
+
+      - job: Windows_x64
+        pool:
+          vmImage: windows-latest
+        steps:
+          - checkout: self
+            fetchDepth: 0
+          - task: NodeTool@0
+            inputs:
+              versionSpec: 20.18.2
+          - script: npm ci
+          - script: npm run compile
+          - script: npm run gulp vscode-win32-x64
+          - powershell: Compress-Archive -Path ..\VSCode-win32-x64 -DestinationPath $(Build.ArtifactStagingDirectory)\evi-win32-x64.zip
+          - publish: $(Build.ArtifactStagingDirectory)
+            artifact: evi-win32-x64
+
+      - job: Windows_ARM64
+        pool:
+          vmImage: windows-latest
+        steps:
+          - checkout: self
+            fetchDepth: 0
+          - task: NodeTool@0
+            inputs:
+              versionSpec: 20.18.2
+          - script: npm ci
+          - script: npm run compile
+          - script: npm run gulp vscode-win32-arm64
+          - powershell: Compress-Archive -Path ..\VSCode-win32-arm64 -DestinationPath $(Build.ArtifactStagingDirectory)\evi-win32-arm64.zip
+          - publish: $(Build.ArtifactStagingDirectory)
+            artifact: evi-win32-arm64
+
+  - stage: Release
+    jobs:
+      - job: CreateGitHubRelease
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - checkout: none
+          - download: current
+            patterns: '*'
+          - script: |
+              set -e
+              echo "Downloaded artifacts:"
+              find $(Pipeline.Workspace) -type f
+          - task: GithubRelease@0
+            displayName: Create GitHub Release
+            inputs:
+              gitHubConnection: github
+              repositoryName: cobyzero/evi-ide
+              action: create
+              target: $(Build.SourceVersion)
+              tagSource: gitTag
+              tag: $(Build.SourceBranchName)
+              assets: $(Pipeline.Workspace)/**/*
+              changeLogCompareToRelease: lastFullRelease
+              changeLogType: generateBasedOnGitCommits
