@@ -1,0 +1,204 @@
+/*--------------------------------------------------------------------------------------
+ *  Copyright 2025 Glass Devtools, Inc. All rights reserved.
+ *  Licensed under the Apache License, Version 2.0. See LICENSE.txt for more information.
+ *--------------------------------------------------------------------------------------*/
+
+.monaco-editor .evi-sweepIdxBG {
+	background-color: var(--vscode-evi-sweepIdxBG);
+}
+
+.evi-sweepBG {
+	background-color: var(--vscode-evi-sweepBG);
+}
+
+.evi-highlightBG {
+	background-color: var(--vscode-evi-highlightBG);
+}
+
+.evi-greenBG {
+	background-color: var(--vscode-evi-greenBG);
+}
+
+.evi-redBG {
+	background-color: var(--vscode-evi-redBG);
+}
+
+
+/* Renamed from evi-watermark-button to evi-openfolder-button */
+.evi-openfolder-button {
+    padding: 8px 20px;
+    background-color: #306dce;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    outline: none !important;
+	box-shadow: none !important;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+}
+.evi-openfolder-button:hover {
+    background-color: #2563eb;
+}
+.evi-openfolder-button:active {
+    background-color: #2563eb;
+}
+
+/* Added for Open SSH button with slightly darker color */
+.evi-openssh-button {
+    padding: 8px 20px;
+    background-color: #656565; /* Slightly darker than the #5a5a5a in the TS file */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    outline: none !important;
+	box-shadow: none !important;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.evi-openssh-button:hover {
+    background-color: #474747; /* Darker on hover */
+}
+.evi-openssh-button:active {
+    background-color: #474747;
+}
+
+
+.evi-settings-watermark-button {
+	margin: 8px 0;
+	padding: 8px 20px;
+	background-color: var(--vscode-input-background);
+	color: var(--vscode-input-foreground);
+	border: none;
+	border-radius: 4px;
+	outline: none !important;
+	box-shadow: none !important;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.evi-settings-watermark-button:hover {
+	filter: brightness(1.1);
+}
+
+.evi-settings-watermark-button:active {
+	filter: brightness(1.1);
+}
+
+.evi-link {
+	color: #3b82f6;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.evi-link:hover {
+	opacity: 80%;
+}
+
+/* styles for all containers used by evi */
+.evi-scope {
+	--scrollbar-vertical-width: 8px;
+	--scrollbar-horizontal-height: 6px;
+}
+
+/* Target both evi-scope and all its descendants with scrollbars */
+.evi-scope,
+.evi-scope * {
+	scrollbar-width: thin !important;
+	scrollbar-color: var(--evi-bg-1) var(--evi-bg-3) !important;
+	/* For Firefox */
+}
+
+.evi-scope::-webkit-scrollbar,
+.evi-scope *::-webkit-scrollbar {
+	width: var(--scrollbar-vertical-width) !important;
+	height: var(--scrollbar-horizontal-height) !important;
+	background-color: var(--evi-bg-3) !important;
+}
+
+.evi-scope::-webkit-scrollbar-thumb,
+.evi-scope *::-webkit-scrollbar-thumb {
+	background-color: var(--evi-bg-1) !important;
+	border-radius: 4px !important;
+	border: none !important;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+}
+
+.evi-scope::-webkit-scrollbar-thumb:hover,
+.evi-scope *::-webkit-scrollbar-thumb:hover {
+	background-color: var(--evi-bg-1) !important;
+	filter: brightness(1.1) !important;
+}
+
+.evi-scope::-webkit-scrollbar-thumb:active,
+.evi-scope *::-webkit-scrollbar-thumb:active {
+	background-color: var(--evi-bg-1) !important;
+	filter: brightness(1.2) !important;
+}
+
+.evi-scope::-webkit-scrollbar-track,
+.evi-scope *::-webkit-scrollbar-track {
+	background-color: var(--evi-bg-3) !important;
+	border: none !important;
+}
+
+.evi-scope::-webkit-scrollbar-corner,
+.evi-scope *::-webkit-scrollbar-corner {
+	background-color: var(--evi-bg-3) !important;
+}
+
+/* Add evi-scrollable-element styles to match */
+.evi-scrollable-element {
+	background-color: var(--vscode-editor-background);
+	--scrollbar-vertical-width: 14px;
+	--scrollbar-horizontal-height: 6px;
+	overflow: auto;
+	/* Ensure scrollbars are shown when needed */
+}
+
+.evi-scrollable-element,
+.evi-scrollable-element * {
+	scrollbar-width: thin !important;
+	/* For Firefox */
+	scrollbar-color: var(--evi-bg-1) var(--evi-bg-3) !important;
+	/* For Firefox */
+}
+
+.evi-scrollable-element::-webkit-scrollbar,
+.evi-scrollable-element *::-webkit-scrollbar {
+	width: var(--scrollbar-vertical-width) !important;
+	height: var(--scrollbar-horizontal-height) !important;
+	background-color: var(--evi-bg-3) !important;
+}
+
+.evi-scrollable-element::-webkit-scrollbar-thumb,
+.evi-scrollable-element *::-webkit-scrollbar-thumb {
+	background-color: var(--evi-bg-1) !important;
+	border-radius: 4px !important;
+	border: none !important;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+}
+
+.evi-scrollable-element::-webkit-scrollbar-thumb:hover,
+.evi-scrollable-element *::-webkit-scrollbar-thumb:hover {
+	background-color: var(--evi-bg-1) !important;
+	filter: brightness(1.1) !important;
+}
+
+.evi-scrollable-element::-webkit-scrollbar-thumb:active,
+.evi-scrollable-element *::-webkit-scrollbar-thumb:active {
+	background-color: var(--evi-bg-1) !important;
+	filter: brightness(1.2) !important;
+}
+
+.evi-scrollable-element::-webkit-scrollbar-track,
+.evi-scrollable-element *::-webkit-scrollbar-track {
+	background-color: var(--evi-bg-3) !important;
+	border: none !important;
+}
+
+.evi-scrollable-element::-webkit-scrollbar-corner,
+.evi-scrollable-element *::-webkit-scrollbar-corner {
+	background-color: var(--evi-bg-3) !important;
+}
